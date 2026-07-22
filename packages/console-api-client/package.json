@@ -1,0 +1,20 @@
+{
+  "name": "@stacktape-poc/console-api-client",
+  "version": "0.0.0",
+  "private": true,
+  "type": "module",
+  "exports": {
+    ".": "./src/index.ts"
+  },
+  "scripts": {
+    "typecheck": "tsc -p tsconfig.json"
+  },
+  "dependencies": {
+    "@stacktape-poc/console-api-contracts": "workspace:*",
+    "@trpc/client": "catalog:"
+  },
+  "devDependencies": {
+    "typescript": "catalog:"
+  }
+}
+

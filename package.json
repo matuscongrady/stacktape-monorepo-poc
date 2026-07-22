@@ -1,0 +1,19 @@
+{
+  "name": "stacktape-monorepo-poc",
+  "version": "0.0.0",
+  "private": true,
+  "type": "module",
+  "packageManager": "pnpm@11.7.0",
+  "engines": {
+    "node": ">=24"
+  },
+  "scripts": {
+    "contract:sync": "node scripts/contracts.mjs sync",
+    "contract:check": "node scripts/contracts.mjs check",
+    "typecheck": "pnpm -r --if-present typecheck",
+    "test": "pnpm -r --if-present test",
+    "check:public": "pnpm contract:check && pnpm typecheck && pnpm test",
+    "check:integrated": "pnpm contract:check && pnpm typecheck && pnpm test"
+  }
+}
+
