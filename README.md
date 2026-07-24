@@ -2,18 +2,19 @@
 
 This public repository tests a pnpm workspace whose only private source is a Git submodule at `apps/console`.
 
-The committed public tRPC declarations are generated from the actual private backend router. Public clients consume
-surface-specific router types without importing private source and without using `any` casts.
+The public repository owns explicit Zod schemas and surface-specific tRPC contract routers. The private backend reuses
+those schemas and carries compile-time input/output conformance checks. Public clients therefore remain precisely typed
+without importing private source, generating declarations from private routers, or using `any` casts.
 
 ## What this proves
 
 - The public clone discovers only the root and two public packages; an uninitialized private glob is harmless.
 - An authorized recursive clone discovers both private apps in the same pnpm workspace.
 - `sharedWorkspaceLockfile: false` keeps the frontend and backend lockfiles inside the private repository.
-- TypeScript 7 declaration emission creates a public tRPC contract from the real private routers without resolver code.
+- TypeScript 6 checks explicit public contracts without exposing private router declarations or Prisma-inferred shapes.
 - Anonymous, API-key, AWS-identity, and Cognito clients expose different procedure sets at compile time.
 - Server middleware still enforces each authentication scheme independently at runtime.
-- Explicit Zod input and output schemas validate externally consumed procedures.
+- Public Zod input and output schemas validate externally consumed procedures and are reused by the private server.
 - Prisma generation and esbuild native binaries work with per-project lockfiles and explicit pnpm `allowBuilds` policy.
 - Public CI never initializes the private submodule; integrated CI runs only in the private repository.
 
@@ -40,7 +41,8 @@ pnpm contract:check
 pnpm check:integrated
 ```
 
-Use `pnpm contract:sync` after intentionally changing an externally consumed tRPC router.
+Change the public schemas/contracts intentionally before changing an externally consumed private procedure. The private
+typecheck fails when its inferred input/output shape no longer matches the public contract.
 
 The private workflow also accepts a manually supplied public Git ref. This lets a trusted maintainer validate a public
 pull-request commit against private source without exposing private credentials to untrusted public CI.

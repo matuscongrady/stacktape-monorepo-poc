@@ -8,8 +8,7 @@
     "node": ">=24 <25"
   },
   "scripts": {
-    "contract:sync": "node scripts/contracts.mjs sync",
-    "contract:check": "node scripts/contracts.mjs check",
+    "contract:check": "node scripts/contracts.mjs",
     "typecheck": "pnpm -r --if-present typecheck",
     "test": "pnpm -r --if-present test",
     "check:public": "pnpm contract:check && pnpm typecheck && pnpm test",
